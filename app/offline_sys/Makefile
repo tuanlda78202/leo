@@ -1,6 +1,6 @@
 include .env
 
-export UV_PROJECT_ENVIRONMENT=.venv
+export UV_PROJECT_ENVIRONMENT=.venv_offline
 export PYTHONPATH = .
 
 # --- Default ---
@@ -11,7 +11,31 @@ NOTION_LOCAL_DATA_PATH := data/notion
 CRAWLED_LOCAL_DATA_PATH := data/crawled
 
 # --- Infrastructure ---
+local-mongodb-up:
+	@echo "Starting local mongodb..."
+	docker compose -f ../infra/docker/docker-compose.yml up --build -d 
 
+local-mongodb-stop:
+	@echo "Stopping local mongodb..."
+	docker compose -f ../infra/docker/docker-compose.yml stop
+
+local-mongodb-down:
+	@echo "Stopping and removing local mongodb..."
+	docker compose -f ../infra/docker/docker-compose.yml down
+
+local-zenml-up:
+	@echo "Starting local zenml server..."
+	uv run zenml login --local
+
+local-zenml-stop:
+	@echo "Stopping local zenml server..."
+	uv run zenml logout --local
+
+local-infra-up: local-mongodb-up local-zenml-up
+
+local-infra-stop: local-mongodb-stop local-zenml-stop
+
+local-infra-down: local-mongodb-down local-zenml-stop
 # --- S3 ---
 
 # -- Offline ML pipelines -- 

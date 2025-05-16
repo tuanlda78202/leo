@@ -1,14 +1,18 @@
 # installation
 ~pwd = app/offline_sys
 
-uv init --bare --python 3.12
-source activate .venv/bin/activate
+# uv init --bare --python 3.12
+# source activate .venv/bin/activate
 
-uv sync # if you have a pyproject.toml
+UV_PROJECT_ENVIRONMENT=.venv-offline uv sync # if you have a pyproject.toml
 uv pip install -e . # offline package inside src
 
 craw4ai-setup
 craw4ai-doctor
+
+# infrastructure
+make local-infra-up # docker container only start port 27017, if u want UI, download mongo-compass
+make local-infra-down
 
 # project structure
 ```bash
