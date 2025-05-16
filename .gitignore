@@ -175,3 +175,5 @@ cython_debug/
 
 # Project
 uv.lock
+.venv_offline
+.venv_online
