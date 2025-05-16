@@ -1,7 +1,7 @@
 # installation
 ~pwd = app/offline_sys
 
-uv init --bare --python 3.11
+uv init --bare --python 3.12
 source activate .venv/bin/activate
 
 uv sync # if you have a pyproject.toml

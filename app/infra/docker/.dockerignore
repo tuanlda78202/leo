@@ -1,0 +1,39 @@
+# Git-related files and directories
+.git
+
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Log files
+*.log
+
+# Test directories and files
+tests/
+
+# Virtual environments
+.venv/
+*.venv/
+venv/
+
+# Build and distribution files
+build/
+dist/
+*.tar.gz
+
+# macOS-related files
+.DS_Store
+
+# IDE files
+.vscode
+
+# Temporary files
+.ruff_cache/
+large_data/
+temp_files/
+
+# Data files
+data/
+faiss/
