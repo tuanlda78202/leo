@@ -1,0 +1,7 @@
+parameters:
+  database_ids: # internal integrations with connection page
+    - 1f855100bf0180d2881aeb078b2fbfb9
+    - 1f855100bf0180ada013e4d217af27be
+  data_dir: data/
+
+  to_s3: false

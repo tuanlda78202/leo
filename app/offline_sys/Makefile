@@ -2,11 +2,11 @@ include .env
 
 export UV_PROJECT_ENVIRONMENT=.venv_offline
 export PYTHONPATH = .
+export ZENML_AUTO_OPEN_DASHBOARD=false
 
 # --- Default ---
-
 CHECK_DIRS := .
-AWS_S3_BUCKET_NAME := decodingml-public-data
+AWS_S3_BUCKET_NAME := tuanlda78202-data
 NOTION_LOCAL_DATA_PATH := data/notion
 CRAWLED_LOCAL_DATA_PATH := data/crawled
 
@@ -36,7 +36,28 @@ local-infra-up: local-mongodb-up local-zenml-up
 local-infra-stop: local-mongodb-stop local-zenml-stop
 
 local-infra-down: local-mongodb-down local-zenml-stop
-# --- S3 ---
+
+# --- AWS ---
+validate_aws_credentials:
+	@echo "Validating AWS credentials..."
+	uv run python -m tools.validate_aws_credentials
+
+s3-upload-notion: 
+	@echo "Uploading raw Notion dataset to S3 bucket: $(AWS_S3_BUCKET_NAME)/llm-sys/notion"
+	uv run python -m tools.use_s3 upload $(NOTION_LOCAL_DATA_PATH) $(AWS_S3_BUCKET_NAME) --s3-prefix llm-sys/notion
+
+s3-download-notion:
+	@echo "Downloading raw Notion dataset from S3 bucket: $(AWS_S3_BUCKET_NAME)/llm-sys/notion/notion.zip"
+	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) llm-sys/notion/notion.zip $(NOTION_LOCAL_DATA_PATH) --no-sign-request
+
+s3-upload-crawled:
+	@echo "Uploading crawled dataset to S3 bucket: $(AWS_S3_BUCKET_NAME)/llm-sys/crawled"
+	uv run python -m tools.use_s3 upload $(CRAWLED_LOCAL_DATA_PATH) $(AWS_S3_BUCKET_NAME) --s3-prefix llm-sys/crawled
+
+s3-download-crawled:
+	@echo "Downloading crawled dataset from S3 bucket: $(AWS_S3_BUCKET_NAME)/llm-sys/crawled/crawled.zip"
+	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) llm-sys/crawled/crawled.zip $(CRAWLED_LOCAL_DATA_PATH) --no-sign-request
+
 
 # -- Offline ML pipelines -- 
 collect-notion-data-pipeline:

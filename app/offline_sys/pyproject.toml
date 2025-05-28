@@ -29,6 +29,9 @@ dev = [
 [tool.pip]
 extra-index-url = "https://download.pytorch.org/whl/cpu/torch_stable.html"
 
+[tool.ruff.lint]
+ignore = ["F401"]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
