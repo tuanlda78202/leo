@@ -125,7 +125,7 @@ class NotionDocumentClient:
                 content += f"[] {self.__parse_rich_text(block['to_do'].get('rich_text', []))}\n"
                 urls.extend(self.__extract_urls(block[block_type].get("rich_text", [])))
             elif block_type == "code":
-                content += f"```\n{self.__parse_rich_text(block['code'].get('rich_text', []))}\n````\n"
+                content += f"```\n{self.__parse_rich_text(block['code'].get('rich_text', []))}\n```\n"
                 urls.extend(self.__extract_urls(block[block_type].get("rich_text", [])))
             elif block_type == "image":
                 content += f"[Image]({block['image'].get('external', {}).get('url', 'No URL')})\n"

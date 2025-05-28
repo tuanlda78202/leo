@@ -55,7 +55,7 @@ class Settings(BaseSettings):
         description="Name of the MongoDB database.",
     )
     MONGODB_URI: str = Field(
-        default="mongodb://charles:charles@localhost:27017/?directConnection=true",
+        default="mongodb://admin:charles@localhost:27017/?directConnection=true",
         description="Connection URI for the local MongoDB Atlas instance.",
     )
 
