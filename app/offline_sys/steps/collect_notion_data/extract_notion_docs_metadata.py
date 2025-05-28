@@ -3,7 +3,7 @@ from typing_extensions import Annotated
 from zenml import get_step_context, step
 
 from offline.domain import DocumentMetaData
-from offline.infra.notion import NotionMetadataClient
+from offline.infra.notion import NotionDatabaseClient
 
 
 @step
@@ -13,7 +13,7 @@ def extract_notion_docs_metadata(
     """Extract metadata from Notion database"""
 
     # query the Notion database to get page metadata
-    client = NotionMetadataClient()
+    client = NotionDatabaseClient()
     docs_metadata = client.query_notion_db(database_id)
 
     logger.info(

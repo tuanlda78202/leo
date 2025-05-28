@@ -22,8 +22,8 @@ def collect_notion_data(
         )
         
         # Min: 2 API calls
-        documents_metadata = extract_notion_docs_metadata(database_id=database_id)
-        documents_data = extract_notion_docs(documents_metadata=documents_metadata)
+        documents_metadata = extract_notion_docs_metadata(database_id=database_id)  # raw metadata of database
+        documents_data = extract_notion_docs(documents_metadata=documents_metadata) # get content from database id
 
         save_docs_to_disk(
             documents=documents_data,

@@ -8,7 +8,7 @@ from offline.config import settings
 from offline.domain import DocumentMetaData
 
 
-class NotionMetadataClient:
+class NotionDatabaseClient:
     """Client for interacting with Notion databases (GET metadata)"""
 
     def __init__(self, api_key: str | None = settings.NOTION_SECRET_KEY) -> None:
