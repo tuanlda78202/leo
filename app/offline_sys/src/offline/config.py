@@ -33,7 +33,7 @@ class Settings(BaseSettings):
         default=None, description="API key for Comet ML and Opik services."
     )
     COMET_PROJECT: str = Field(
-        default="llm-sys-tracker",
+        default="leo-tracker",
         description="Project name for Comet ML and Opik tracking.",
     )
 
@@ -51,17 +51,22 @@ class Settings(BaseSettings):
 
     # --- MongoDB Atlas Configuration ---
     MONGODB_DATABASE_NAME: str = Field(
-        default="llm-sys-database",
+        default="leo-database",
         description="Name of the MongoDB database.",
     )
     MONGODB_URI: str = Field(
-        default="mongodb://admin:charles@localhost:27017/?directConnection=true",
+        default="mongodb://charles:charles@localhost:27017/?directConnection=true",
         description="Connection URI for the local MongoDB Atlas instance.",
     )
 
     # --- Notion API Configuration ---
     NOTION_SECRET_KEY: str | None = Field(
         default=None, description="Secret key for Notion API authentication."
+    )
+
+    # --- Gemini API Configuration ---
+    GEMINI_API_KEY: str | None = Field(
+        default=None, description="API key for Gemini service authentication."
     )
 
     # # --- OpenAI API Configuration ---

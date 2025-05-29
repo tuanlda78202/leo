@@ -1,5 +1,6 @@
+from typing import Annotated
+
 from loguru import logger
-from typing_extensions import Annotated
 from zenml import get_step_context, step
 
 from offline.domain import DocumentMetaData

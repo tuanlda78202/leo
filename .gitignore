@@ -178,3 +178,5 @@ uv.lock
 .venv_offline
 .venv_online
 data/
+gguf/
+test.py
