@@ -1,6 +1,6 @@
 from pathlib import Path
+from typing import Annotated
 
-from typing_extensions import Annotated
 from zenml import get_step_context, step
 
 from offline.config import settings
@@ -17,7 +17,7 @@ def upload_to_s3(
     # call the S3 client
     s3_client = S3Client(bucket_name=settings.AWS_S3_BUCKET_NAME)
     s3_client.upload_folder(
-        folder_path=folder_path,
+        local_path=folder_path,
         s3_prefix=s3_prefix,
     )
 

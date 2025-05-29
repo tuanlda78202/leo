@@ -4,14 +4,12 @@ from typing import Any
 
 import click
 
-from pipelines import (
-    collect_notion_data,
-)
+from pipelines import collect_notion_data, etl
 
 
 @click.command(
     help="""
-LLM-SYS CLI v0.0.1. 
+Leo CLI v0.0.1. 
 
 Main entry point for the pipeline execution. 
 This entrypoint is where everything comes together.
@@ -48,11 +46,20 @@ Examples:
     default=False,
     help="Whether to run the collection data from Notion pipeline.",
 )
+@click.option(
+    "--run-etl-pipeline",
+    is_flag=True,
+    default=False,
+    help="Whether to run the ETL pipeline.",
+)
 def main(
     no_cache: bool = False,
     run_collect_notion_data_pipeline: bool = False,
+    run_etl_pipeline: bool = False,
 ) -> None:
-    assert run_collect_notion_data_pipeline, "Please specify an action to run."
+    assert run_collect_notion_data_pipeline or run_etl_pipeline, (
+        "Please specify an action to run."
+    )
 
     pipeline_args: dict[str, Any] = {
         "enable_cache": not no_cache,
@@ -68,7 +75,20 @@ def main(
         pipeline_args["run_name"] = (
             f"collect_notion_data_run_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
         )
-        collect_notion_data.with_options(**pipeline_args)(**run_args) # log config by zenml
+        collect_notion_data.with_options(**pipeline_args)(
+            **run_args
+        )  # log config by zenml
+
+    if run_etl_pipeline:
+        run_args = {}
+        pipeline_args["config_path"] = root_dir / "configs" / "etl.yaml"
+        assert pipeline_args["config_path"].exists(), (
+            f"Config file not found: {pipeline_args['config_path']}"
+        )
+        pipeline_args["run_name"] = (
+            f"etl_run_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
+        )
+        etl.with_options(**pipeline_args)(**run_args)
 
 
 if __name__ == "__main__":

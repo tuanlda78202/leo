@@ -43,32 +43,35 @@ validate_aws_credentials:
 	uv run python -m tools.validate_aws_credentials
 
 s3-upload-notion: 
-	@echo "Uploading raw Notion dataset to S3 bucket: $(AWS_S3_BUCKET_NAME)/llm-sys/notion"
-	uv run python -m tools.use_s3 upload $(NOTION_LOCAL_DATA_PATH) $(AWS_S3_BUCKET_NAME) --s3-prefix llm-sys/notion
+	@echo "Uploading raw Notion dataset to S3 bucket: $(AWS_S3_BUCKET_NAME)/leo/notion"
+	uv run python -m tools.use_s3 upload $(NOTION_LOCAL_DATA_PATH) $(AWS_S3_BUCKET_NAME) --s3-prefix leo/notion
 
 s3-download-notion:
-	@echo "Downloading raw Notion dataset from S3 bucket: $(AWS_S3_BUCKET_NAME)/llm-sys/notion/notion.zip"
-	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) llm-sys/notion/notion.zip $(NOTION_LOCAL_DATA_PATH) --no-sign-request
+	@echo "Downloading raw Notion dataset from S3 bucket: $(AWS_S3_BUCKET_NAME)/leo/notion/notion.zip"
+	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) leo/notion/notion.zip $(NOTION_LOCAL_DATA_PATH) --no-sign-request
 
 s3-upload-crawled:
-	@echo "Uploading crawled dataset to S3 bucket: $(AWS_S3_BUCKET_NAME)/llm-sys/crawled"
-	uv run python -m tools.use_s3 upload $(CRAWLED_LOCAL_DATA_PATH) $(AWS_S3_BUCKET_NAME) --s3-prefix llm-sys/crawled
+	@echo "Uploading crawled dataset to S3 bucket: $(AWS_S3_BUCKET_NAME)/leo/crawled"
+	uv run python -m tools.use_s3 upload $(CRAWLED_LOCAL_DATA_PATH) $(AWS_S3_BUCKET_NAME) --s3-prefix leo/crawled
 
 s3-download-crawled:
-	@echo "Downloading crawled dataset from S3 bucket: $(AWS_S3_BUCKET_NAME)/llm-sys/crawled/crawled.zip"
-	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) llm-sys/crawled/crawled.zip $(CRAWLED_LOCAL_DATA_PATH) --no-sign-request
-
+	@echo "Downloading crawled dataset from S3 bucket: $(AWS_S3_BUCKET_NAME)/leo/crawled/crawled.zip"
+	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) leo/crawled/crawled.zip $(CRAWLED_LOCAL_DATA_PATH) --no-sign-request
 
 # -- Offline ML pipelines -- 
 collect-notion-data-pipeline:
 	@echo "Collecting Notion data..."
 	uv run python -m tools.run --run-collect-notion-data-pipeline --no-cache
 
+etl-pipeline:
+	@echo "Running ETL pipeline..."
+	uv run python -m tools.run --run-etl-pipeline --no-cache
+
 # -- Test API -- 
 
 # --- PyTest ---
 
-# -- Format --
+# -- CI --
 # --- Utilities ---
 help:
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | sort | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done

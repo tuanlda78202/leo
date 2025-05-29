@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-format-offline:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/offline_sys
+
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 📦 Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "apps/offline_sys/.python-version"
+
+      - name: 🦾 Install the project
+        run: |
+          uv sync --all-extras --dev
+          uv pip install -e .
+
+      - name: 💅 Format Check
+        run: |
+          uv run ruff format --check .
+          uv run ruff check -e
+          uv run ruff check --select I -e
+
+      - name: 🔎 Lint Check
+        run: uv run ruff check .
