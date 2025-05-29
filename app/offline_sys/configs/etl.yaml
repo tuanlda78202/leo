@@ -3,7 +3,7 @@ parameters:
 
   max_workers: 4
 
-  quality_agent_model_id: gemini/gemini-2.0-flash
+  quality_agent_model_id: gemini/gemini-2.0-flash-lite
   quality_agent_mock: False
 
   load_collection_name: raw

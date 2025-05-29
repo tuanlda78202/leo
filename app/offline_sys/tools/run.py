@@ -4,7 +4,7 @@ from typing import Any
 
 import click
 
-from pipelines import collect_notion_data, etl
+from pipelines import collect_notion_data, etl, gen_data
 
 
 @click.command(
@@ -52,14 +52,21 @@ Examples:
     default=False,
     help="Whether to run the ETL pipeline.",
 )
+@click.option(
+    "--run-gen-data-pipeline",
+    is_flag=True,
+    default=False,
+    help="Whether to run the generate data pipeline.",
+)
 def main(
     no_cache: bool = False,
     run_collect_notion_data_pipeline: bool = False,
     run_etl_pipeline: bool = False,
+    run_gen_data_pipeline: bool = False,
 ) -> None:
-    assert run_collect_notion_data_pipeline or run_etl_pipeline, (
-        "Please specify an action to run."
-    )
+    assert (
+        run_collect_notion_data_pipeline or run_etl_pipeline or run_gen_data_pipeline
+    ), "Please specify an action to run."
 
     pipeline_args: dict[str, Any] = {
         "enable_cache": not no_cache,
@@ -89,6 +96,17 @@ def main(
             f"etl_run_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
         )
         etl.with_options(**pipeline_args)(**run_args)
+
+    if run_gen_data_pipeline:
+        run_args = {}
+        pipeline_args["config_path"] = root_dir / "configs" / "gen_data.yaml"
+        assert pipeline_args["config_path"].exists(), (
+            f"Config file not found: {pipeline_args['config_path']}"
+        )
+        pipeline_args["run_name"] = (
+            f"gen_data_run_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
+        )
+        gen_data.with_options(**pipeline_args)(**run_args)
 
 
 if __name__ == "__main__":
