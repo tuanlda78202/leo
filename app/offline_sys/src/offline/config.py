@@ -63,7 +63,7 @@ class Settings(BaseSettings):
     NOTION_SECRET_KEY: str | None = Field(
         default=None, description="Secret key for Notion API authentication."
     )
-    
+
     # --- Gemini API Configuration ---
     GEMINI_API_KEY: str | None = Field(
         default=None, description="API key for Gemini service authentication."

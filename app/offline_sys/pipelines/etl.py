@@ -30,7 +30,7 @@ def etl(
     raw_docs = read_docs_from_disk(data_dir=notion_data_dir, nesting_level=1)
 
     crawled_docs = crawl(documents=raw_docs, max_workers=max_workers)
-        
+
     scored_docs = add_quality_score(
         documents=crawled_docs,
         model_id=quality_agent_model_id,
@@ -45,9 +45,9 @@ def etl(
         collection_name=load_collection_name,
         clear_collection=True,
     )
-    
+
     if to_s3:
         upload_to_s3(
-            folder_path=scored_data_dir, # TODO: need exist dir
+            folder_path=scored_data_dir,  # TODO: need exist dir
             s3_prefix="leo/scored",
         )

@@ -123,7 +123,7 @@ class QualityScoreAgent:
         model_id: str,
         mock: bool = False,
         max_concurrent_requests: int = 10,
-        api_base: str = "http://localhost:8000/v1"
+        api_base: str = "http://localhost:8000/v1",
     ) -> None:
         self.model_id = model_id
         self.mock = mock
@@ -201,11 +201,15 @@ class QualityScoreAgent:
         )
 
         success_count = len(
-            [doc for doc in documents_with_scores if doc.content_quality_score is not None]
-        ) #TODO: only count documents with valid scores after retries
+            [
+                doc
+                for doc in documents_with_scores
+                if doc.content_quality_score is not None
+            ]
+        )  # TODO: only count documents with valid scores after retries
         failed_count = total_docs - success_count
         logger.info(
-            f"Mock score: {self.mock}\n" #TODO: make sure turn off mock mode
+            f"Mock score: {self.mock}\n"  # TODO: make sure turn off mock mode
             f"Quality scoring completed: "
             f"{success_count}/{total_docs} succeeded ✓ | "
             f"{failed_count}/{total_docs} failed ✗"
@@ -224,7 +228,7 @@ class QualityScoreAgent:
             for document in documents
         ]
         results = []
-        
+
         for coroutine in tqdm(
             asyncio.as_completed(tasks),
             total=len(documents),
