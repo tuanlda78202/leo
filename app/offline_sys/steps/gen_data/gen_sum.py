@@ -20,7 +20,7 @@ def gen_sum(
     summarization_max_characters: int = 256,
 ) -> Annotated[InstructDataset, "gen_summary_dataset"]:
     """pre-filter -> augment summarization dataset -> post-filter -> instruct pydantic dataset -> split"""
-    
+
     dataset_generator = SummarizationDatasetGenerator(
         summarization_model=summarization_model,
         summarization_max_characters=summarization_max_characters,
