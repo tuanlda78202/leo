@@ -24,7 +24,7 @@ def etl(
 ):
     """ETL pipeline to crawl, add quality scores, and save documents."""
     notion_data_dir = data_dir / "notion"
-    crawled_data_dir = data_dir / "crawled"
+    # crawled_data_dir = data_dir / "crawled"
     scored_data_dir = data_dir / "scored"
 
     raw_docs = read_docs_from_disk(data_dir=notion_data_dir, nesting_level=1)
