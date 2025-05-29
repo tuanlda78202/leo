@@ -67,6 +67,10 @@ etl-pipeline:
 	@echo "Running ETL pipeline..."
 	uv run python -m tools.run --run-etl-pipeline --no-cache
 
+gen-data-pipeline:
+	@echo "Generating summarization dataset..."
+	uv run python -m tools.run --run-gen-data-pipeline --no-cache
+
 # -- Test API -- 
 
 # --- PyTest ---

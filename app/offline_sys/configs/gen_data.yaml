@@ -1,0 +1,19 @@
+parameters:
+  # mongo database
+  extract_collection_name: raw
+  fetch_limit: 1000
+
+  # summarization task
+  summarization_agent_model_id: gemini/gemini-2.0-flash-lite
+  summarization_agent_mock: false
+  summarization_max_characters: 256
+  val_split_ratio: 0.1
+  test_split_ratio: 0.1
+  min_document_characters: 50
+  min_quality_score: 0.6 # 0.3
+  augmentation_loops: 4
+  max_workers: 4
+
+  # save data registry
+  load_dataset_id: leo_summarization_task
+  data_dir: data/
