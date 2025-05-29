@@ -201,8 +201,8 @@ class QualityScoreAgent:
         )
 
         success_count = len(
-            [doc for doc in scored_documents if doc.content_quality_score is not None]
-        )
+            [doc for doc in documents_with_scores if doc.content_quality_score is not None]
+        ) #TODO: only count documents with valid scores after retries
         failed_count = total_docs - success_count
         logger.info(
             f"Mock score: {self.mock}\n" #TODO: make sure turn off mock mode
@@ -211,7 +211,7 @@ class QualityScoreAgent:
             f"{failed_count}/{total_docs} failed ✗"
         )
 
-        return scored_documents
+        return documents_with_scores
 
     async def __process_batch(
         self, documents: list[Document], await_time_seconds: int

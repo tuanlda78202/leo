@@ -43,7 +43,7 @@ class MongoDBService(Generic[T]):
 
         Args:
             collection_name: Name of the MongoDB collection to use.
-            model_class: The Pydantic model class to use for document serialization.
+            model: The Pydantic model class to use for document serialization.
             database_name: Name of the MongoDB database to use.
                 Defaults to value from settings.
             mongodb_uri: URI for connecting to MongoDB instance.
