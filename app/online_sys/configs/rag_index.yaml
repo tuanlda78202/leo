@@ -1,0 +1,26 @@
+parameters:
+  # Fetch from MongoDb
+  extract_collection_name: raw
+  fetch_limit: 200
+
+  # Filtering
+  content_quality_score_threshold: 0.6
+
+  # RAG Chunking to Index
+  load_collection_name: rag
+  retriever_type: contextual # parent
+
+  embedding_model_id: models/text-embedding-004 # text-embedding-3-small, Alibaba-NLP/gte-large-en-v1
+  embedding_model_type: google # openai
+  embedding_model_dim: 768 # 1536
+
+  chunk_size: 640
+  contextual_summarization_type: contextual # simple
+  contextual_agent_model_id: gemini/gemini-2.0-flash-lite # gpt-4o-mini
+  contextual_agent_max_characters: 128
+  mock: false
+
+  processing_batch_size: 2
+  processing_max_workers: 2
+  
+  device: cuda

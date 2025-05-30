@@ -1,3 +1,7 @@
+ifeq (,$(wildcard .env))
+$(error .env file is missing. Please create one based on .env.example. Run: "cp .env.example .env" and fill in the missing values.)
+endif
+
 include .env
 
 export UV_PROJECT_ENVIRONMENT=.venv_offline
