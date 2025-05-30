@@ -4,7 +4,7 @@ from typing import Any
 
 import click
 
-from pipelines import collect_notion_data, etl, gen_data
+from pipelines import collect_notion_data, etl, gen_data, rag_index
 
 
 @click.command(
@@ -58,14 +58,24 @@ Examples:
     default=False,
     help="Whether to run the generate data pipeline.",
 )
+@click.option(
+    "--run-rag-index-pipeline",
+    is_flag=True,
+    default=False,
+    help="Whether to run the RAG indexing pipeline.",
+)
 def main(
     no_cache: bool = False,
     run_collect_notion_data_pipeline: bool = False,
     run_etl_pipeline: bool = False,
     run_gen_data_pipeline: bool = False,
+    run_rag_index_pipeline: bool = False,
 ) -> None:
     assert (
-        run_collect_notion_data_pipeline or run_etl_pipeline or run_gen_data_pipeline
+        run_collect_notion_data_pipeline
+        or run_etl_pipeline
+        or run_gen_data_pipeline
+        or run_rag_index_pipeline
     ), "Please specify an action to run."
 
     pipeline_args: dict[str, Any] = {
@@ -107,6 +117,17 @@ def main(
             f"gen_data_run_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
         )
         gen_data.with_options(**pipeline_args)(**run_args)
+
+    if run_rag_index_pipeline:
+        run_args = {}
+        pipeline_args["config_path"] = root_dir / "configs" / "rag_index.yaml"
+        assert pipeline_args["config_path"].exists(), (
+            f"Config file not found: {pipeline_args['config_path']}"
+        )
+        pipeline_args["run_name"] = (
+            f"rag_index_run_{datetime.now().strftime('%Y_%m_%d_%H_%M_%S')}"
+        )
+        rag_index.with_options(**pipeline_args)(**run_args)
 
 
 if __name__ == "__main__":
