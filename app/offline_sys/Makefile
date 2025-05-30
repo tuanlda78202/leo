@@ -17,15 +17,15 @@ CRAWLED_LOCAL_DATA_PATH := data/crawled
 # --- Infrastructure ---
 local-mongodb-up:
 	@echo "Starting local mongodb..."
-	docker compose -f ../infra/docker/docker-compose.yml up --build -d 
+	docker compose -f ../infra/docker-compose.yml up --build -d 
 
 local-mongodb-stop:
 	@echo "Stopping local mongodb..."
-	docker compose -f ../infra/docker/docker-compose.yml stop
+	docker compose -f ../infra/docker-compose.yml stop
 
 local-mongodb-down:
 	@echo "Stopping and removing local mongodb..."
-	docker compose -f ../infra/docker/docker-compose.yml down
+	docker compose -f ../infra/docker-compose.yml down
 
 local-zenml-up:
 	@echo "Starting local zenml server..."
