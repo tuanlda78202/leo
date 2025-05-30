@@ -21,6 +21,7 @@ dependencies = [
     "vllm>=0.9.0",
     "unsloth>=2025.5.9",
     "comet-ml>=3.49.10",
+    "langchain-google-genai>=2.1.5",
 ]
 
 [dependency-groups]

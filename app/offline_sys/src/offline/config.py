@@ -55,7 +55,7 @@ class Settings(BaseSettings):
         description="Name of the MongoDB database.",
     )
     MONGODB_URI: str = Field(
-        default="mongodb://charles:charles@localhost:27017/?directConnection=true",
+        default="",
         description="Connection URI for the local MongoDB Atlas instance.",
     )
 
@@ -67,6 +67,9 @@ class Settings(BaseSettings):
     # --- Gemini API Configuration ---
     GEMINI_API_KEY: str | None = Field(
         default=None, description="API key for Gemini service authentication."
+    )
+    GOOGLE_API_KEY: str | None = Field(
+        default=None, description="API key for Google services."
     )
 
     # # --- OpenAI API Configuration ---
