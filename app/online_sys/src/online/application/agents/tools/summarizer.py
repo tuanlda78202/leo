@@ -94,7 +94,7 @@ class OpenAISummarizerTool(Tool):
             api_key=settings.OPENAI_API_KEY,
         )
 
-    @track(name="GeminiSummarizerTool.forward")
+    @track(name="OpenAISummarizerTool.forward")
     def forward(self, text: str) -> str:
         result = self.__client.chat.completions.create(
             model=settings.OPENAI_MODEL_ID,

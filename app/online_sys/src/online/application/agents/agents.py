@@ -66,11 +66,11 @@ class AgentWrapper:
                 f"Using OpenAI as the summarizer with model: {settings.OPENAI_MODEL_ID}"
             )
             summarizer_tool = OpenAISummarizerTool(stream=False)
-        elif settings.GEMINI_API_KEY:
+        else:
             logger.warning(
                 f"Using Gemini as the summarizer with model: {settings.GEMINI_MODEL_ID}"
             )
-            summarizer_tool = GeminiSummarizerTool(stream=False)
+            summarizer_tool = GeminiSummarizerTool()
 
         model = LiteLLMModel(
             model_id=settings.GEMINI_MODEL_ID,
@@ -119,7 +119,7 @@ def extract_tool_responses(
     Extracts and concatenates all tool response contents with numbered observation delimiters.
 
     Args:
-        input_messages (List[Dict]): List of message dictionaries containing 'role' and 'content' keys
+        agent_wrapper (AgentWrapper): The agent wrapper containing message dictionaries with 'role' and 'content' keys
 
     Returns:
         str: Tool response contents separated by numbered observation delimiters
