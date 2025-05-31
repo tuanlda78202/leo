@@ -35,6 +35,9 @@ local-infra-down: local-mongodb-down
 run_app:
 	uv run python -m tools.app --retriever-config=$(RETRIEVER_CONFIG) --ui
 
+eval_app:
+	uv run python -m tools.eval_app --retriever-config=$(RETRIEVER_CONFIG)
+
 # -- CI --
 format-fix:
 	uv run ruff format $(CHECK_DIRS)

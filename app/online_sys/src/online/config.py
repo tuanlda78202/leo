@@ -51,11 +51,20 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: str | None = Field(
         default=None, description="API key for Google services."
     )
+    GEMINI_MODEL_ID: str = Field(
+        default="gemini/gemini-2.0-flash-lite",
+        description="Model ID for Gemini API.",
+    )
 
-    # # --- OpenAI API Configuration ---
-    # OPENAI_API_KEY: str = Field(
-    #     description="API key for OpenAI service authentication.",
-    # )
+    # --- OpenAI API Configuration ---
+    OPENAI_API_KEY: str = Field(
+        default=None,
+        description="API key for OpenAI service authentication.",
+    )
+
+    OPENAI_MODEL_ID: str = Field(
+        default="gpt-4o-mini", description="Identifier for the OpenAI model to be used."
+    )
 
     # @field_validator("OPENAI_API_KEY")
     # @classmethod

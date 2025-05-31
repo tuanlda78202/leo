@@ -22,6 +22,7 @@ dependencies = [
     "comet_ml>=3.47.6",
     "langchain-huggingface>=0.1.2",
     "langchain-google-genai>=2.1.5",
+    "duckduckgo-search>=8.0.2",
 ]
 
 [dependency-groups]

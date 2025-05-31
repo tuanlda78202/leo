@@ -34,7 +34,7 @@ def main(retriever_config: Path, ui: bool, query: str) -> None:
         query: Query string to run in CLI mode
     """
     agent = get_agent(retriever_config=Path(retriever_config))
-    
+
     if ui:
         GradioUI(agent).launch()
     else:
