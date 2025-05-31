@@ -1,3 +1,7 @@
+ifeq (,$(wildcard .env))
+$(error .env file is missing. Please create one based on .env.example. Run: "cp .env.example .env" and fill in the missing values.)
+endif
+
 include .env
 
 export UV_PROJECT_ENVIRONMENT=.venv_offline
@@ -13,15 +17,15 @@ CRAWLED_LOCAL_DATA_PATH := data/crawled
 # --- Infrastructure ---
 local-mongodb-up:
 	@echo "Starting local mongodb..."
-	docker compose -f ../infra/docker/docker-compose.yml up --build -d 
+	docker compose -f ../infra/docker-compose.yml up --build -d 
 
 local-mongodb-stop:
 	@echo "Stopping local mongodb..."
-	docker compose -f ../infra/docker/docker-compose.yml stop
+	docker compose -f ../infra/docker-compose.yml stop
 
 local-mongodb-down:
 	@echo "Stopping and removing local mongodb..."
-	docker compose -f ../infra/docker/docker-compose.yml down
+	docker compose -f ../infra/docker-compose.yml down
 
 local-zenml-up:
 	@echo "Starting local zenml server..."
