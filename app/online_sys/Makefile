@@ -32,8 +32,12 @@ local-infra-stop: local-mongodb-stop
 local-infra-down: local-mongodb-down
 
 # --- App ---
-run_app:
-	uv run python -m tools.app --retriever-config=$(RETRIEVER_CONFIG) --ui
+api:
+	@echo "Starting API server..."
+	uvicorn tools.api:app --host 0.0.0.0 --port 7820
+
+gradio:
+	uv run python -m tools.gradio --retriever-config=$(RETRIEVER_CONFIG) --ui
 
 eval_app:
 	uv run python -m tools.eval_app --retriever-config=$(RETRIEVER_CONFIG)

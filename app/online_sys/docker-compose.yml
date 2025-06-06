@@ -1,0 +1,11 @@
+services:
+  leo-online-backend:
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    ports:
+      - "7820:7820"
+    volumes:
+      - .:/app
+    env_file:
+      - .env 

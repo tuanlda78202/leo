@@ -115,7 +115,7 @@ class AgentWrapper:
 
 def extract_tool_responses(
     agent_wrapper: "AgentWrapper",
-) -> str:  # TODO: support CodeAgent tool responses
+) -> str:
     """
     Extracts and concatenates all tool response contents with numbered observation delimiters.
 
