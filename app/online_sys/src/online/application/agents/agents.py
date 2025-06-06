@@ -4,7 +4,6 @@ from typing import Any
 from loguru import logger
 from opik import opik_context, track
 from smolagents import (
-    CodeAgent,  # TODO: using code agent tools
     LiteLLMModel,
     MessageRole,
     MultiStepAgent,
@@ -22,7 +21,9 @@ from .tools import (
 )
 
 
-def get_agent(retriever_config: Path) -> "AgentWrapper":
+def get_agent(
+    retriever_config: Path = Path("configs/rag_index.yaml"),
+) -> "AgentWrapper":
     agent = AgentWrapper.build_from_smolagents(retriever_config=retriever_config)
 
     return agent
