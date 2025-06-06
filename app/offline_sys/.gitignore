@@ -1,0 +1,8 @@
+.venv_offline
+data/
+gguf/
+test.py
+unsloth_compiled_cache/
+sft_outputs/
+Qwen3-1.7B-Leo-Summarization/
+note.txt

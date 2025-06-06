@@ -175,13 +175,3 @@ cython_debug/
 
 # Project
 uv.lock
-.venv_offline
-.venv_online
-data/
-gguf/
-test.py
-unsloth_compiled_cache/
-sft_outputs/
-Qwen3-1.7B-Leo-Summarization/
-node_modules/
-.gradio/
