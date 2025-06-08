@@ -3,10 +3,11 @@ import {
   ProcessedEvent,
 } from "@/components/ActivityTimeline";
 import { Copy, Loader2 } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ExecutionStep } from "@/lib/api";
 import { InputForm } from "@/components/InputForm";
 import type React from "react";
 import ReactMarkdown from "react-markdown";
@@ -17,7 +18,6 @@ interface Message {
   id: string;
   type: 'human' | 'ai';
   content: string;
-  timestamp?: number;
 }
 
 // Markdown component props type
@@ -164,6 +164,7 @@ const HumanMessageBubble: React.FC<HumanMessageBubbleProps> = ({
 interface AiMessageBubbleProps {
   message: Message;
   historicalActivity: ProcessedEvent[] | undefined;
+  historicalTotalTime: number | undefined;
   liveActivity: ProcessedEvent[] | undefined;
   isLastMessage: boolean;
   isOverallLoading: boolean;
@@ -176,6 +177,7 @@ interface AiMessageBubbleProps {
 const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   message,
   historicalActivity,
+  historicalTotalTime,
   liveActivity,
   isLastMessage,
   isOverallLoading,
@@ -183,18 +185,47 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
   handleCopy,
   copiedMessageId,
 }) => {
-  // Determine which activity events to show and if it's for a live loading message
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [startTime, setStartTime] = useState<number | null>(null);
+
+  // Timer logic for live activity
+  const isLiveActivityForThisBubble = isLastMessage && isOverallLoading;
+
+  useEffect(() => {
+    if (isLiveActivityForThisBubble && !startTime) {
+      setStartTime(Date.now());
+      setElapsedTime(0);
+    } else if (!isLiveActivityForThisBubble) {
+      setStartTime(null);
+      setElapsedTime(0);
+    }
+  }, [isLiveActivityForThisBubble, startTime]);
+
+  useEffect(() => {
+    if (!isLiveActivityForThisBubble || !startTime) return;
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const elapsed = (now - startTime) / 1000;
+      setElapsedTime(elapsed);
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [isLiveActivityForThisBubble, startTime]);
+
+  // Determine which activity events to show
   const activityForThisBubble =
     isLastMessage && isOverallLoading ? liveActivity : historicalActivity;
-  const isLiveActivityForThisBubble = isLastMessage && isOverallLoading;
 
   return (
     <div className="relative break-words flex flex-col w-full">
       {activityForThisBubble && activityForThisBubble.length > 0 && (
-        <div className="mb-3 border-b border-border pb-3 text-xs">
+        <div className="mb-3">
           <ActivityTimeline
             processedEvents={activityForThisBubble}
             isLoading={isLiveActivityForThisBubble}
+            thinkingTime={isLiveActivityForThisBubble ? elapsedTime : undefined}
+            totalCompletedTime={!isLiveActivityForThisBubble ? historicalTotalTime : undefined}
           />
         </div>
       )}
@@ -226,10 +257,12 @@ const AiMessageBubble: React.FC<AiMessageBubbleProps> = ({
 interface ChatMessagesViewProps {
   messages: Message[];
   isLoading: boolean;
-  onSubmit: (inputValue: string, effort: string, model: string) => void;
+  onSubmit: (inputValue: string) => void;
   onCancel: () => void;
   liveActivityEvents?: ProcessedEvent[];
+  liveExecutionSteps?: ExecutionStep[];
   historicalActivities?: Record<string, ProcessedEvent[]>;
+  historicalTotalTimes?: Record<string, number>;
   error?: string | null;
 }
 
@@ -240,15 +273,41 @@ export function ChatMessagesView({
   onCancel,
   liveActivityEvents = [],
   historicalActivities = {},
+  historicalTotalTimes = {},
   error,
 }: ChatMessagesViewProps) {
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [startTime, setStartTime] = useState<number | null>(null);
+
+  // Timer logic for initial loading
+  useEffect(() => {
+    if (isLoading && !startTime) {
+      setStartTime(Date.now());
+      setElapsedTime(0);
+    } else if (!isLoading) {
+      setStartTime(null);
+      setElapsedTime(0);
+    }
+  }, [isLoading, startTime]);
+
+  useEffect(() => {
+    if (!isLoading || !startTime) return;
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const elapsed = (now - startTime) / 1000;
+      setElapsedTime(elapsed);
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [isLoading, startTime]);
 
   const handleCopy = async (text: string, messageId: string) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedMessageId(messageId);
-      setTimeout(() => setCopiedMessageId(null), 2000); // Reset after 2 seconds
+      setTimeout(() => setCopiedMessageId(null), 2000);
     } catch (err) {
       console.error("Failed to copy text: ", err);
     }
@@ -275,6 +334,7 @@ export function ChatMessagesView({
                     <AiMessageBubble
                       message={message}
                       historicalActivity={historicalActivities[message.id]}
+                      historicalTotalTime={historicalTotalTimes[message.id]}
                       liveActivity={liveActivityEvents}
                       isLastMessage={isLast}
                       isOverallLoading={isLoading}
@@ -304,11 +364,18 @@ export function ChatMessagesView({
                   <ActivityTimeline
                     processedEvents={liveActivityEvents}
                     isLoading={true}
+                    thinkingTime={elapsedTime}
+                    totalCompletedTime={undefined}
                   />
                 ) : (
-                  <div className="flex items-center justify-start p-6 bg-card rounded-xl border">
-                    <Loader2 className="h-5 w-5 animate-spin text-muted-foreground mr-2" />
-                    <span className="text-card-foreground">Leo is thinking...</span>
+                  <div className="flex items-center justify-between p-6 bg-card rounded-xl border">
+                    <div className="flex items-center">
+                      <Loader2 className="h-5 w-5 animate-spin text-muted-foreground mr-2" />
+                      <span className="text-card-foreground">Leo is thinking...</span>
+                    </div>
+                    <span className="text-muted-foreground text-sm font-mono">
+                      {elapsedTime.toFixed(1)}s
+                    </span>
                   </div>
                 )}
               </div>

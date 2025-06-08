@@ -11,7 +11,6 @@ interface Message {
   id: string;
   type: 'human' | 'ai';
   content: string;
-  timestamp?: number;
 }
 
 // Convert backend execution steps to frontend ProcessedEvent format
@@ -27,25 +26,23 @@ function AppContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [liveActivityEvents, setLiveActivityEvents] = useState<ProcessedEvent[]>([]);
+  const [liveExecutionSteps, setLiveExecutionSteps] = useState<ExecutionStep[]>([]);
   const [historicalActivities, setHistoricalActivities] = useState<Record<string, ProcessedEvent[]>>({});
+  const [historicalTotalTimes, setHistoricalTotalTimes] = useState<Record<string, number>>({});
 
-  const handleSubmit = useCallback(async (
-    inputValue: string,
-    _effort: string,
-    _model: string
-  ) => {
+  const handleSubmit = useCallback(async (inputValue: string) => {
     if (!inputValue.trim()) return;
 
     setIsLoading(true);
     setError(null);
     setLiveActivityEvents([]);
+    setLiveExecutionSteps([]);
 
     // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       type: 'human',
       content: inputValue,
-      timestamp: Date.now(),
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -53,6 +50,7 @@ function AppContent() {
     try {
       const steps: ExecutionStep[] = [];
       let finalResult = '';
+      const startTime = Date.now(); // Track start time
 
       // Stream the agent execution
       for await (const event of api.chatStream(inputValue)) {
@@ -62,9 +60,10 @@ function AppContent() {
           const step = event.data as ExecutionStep;
           steps.push(step);
 
-          // Update live activity events
+          // Update live activity events and steps
           const processedEvents = convertExecutionStepsToEvents(steps);
           setLiveActivityEvents(processedEvents);
+          setLiveExecutionSteps([...steps]);
 
         } else if (event.type === 'result') {
           const response = event.data;
@@ -73,6 +72,7 @@ function AppContent() {
         } else if (event.type === 'error') {
           setError(event.data.error || 'Unknown error occurred');
           setLiveActivityEvents([]);
+          setLiveExecutionSteps([]);
           setIsLoading(false);
           return;
 
@@ -82,27 +82,36 @@ function AppContent() {
       }
 
       if (finalResult) {
+        const endTime = Date.now();
+        const totalElapsedTime = (endTime - startTime) / 1000; // Calculate total time in seconds
+
         // Add AI response
         const aiMessage: Message = {
           id: (Date.now() + 1).toString(),
           type: 'ai',
           content: finalResult,
-          timestamp: Date.now(),
         };
 
         setMessages(prev => [...prev, aiMessage]);
 
-        // Save historical activity for this message
+        // Save historical activity and use frontend calculated time
         if (steps.length > 0) {
           const processedEvents = convertExecutionStepsToEvents(steps);
+
           setHistoricalActivities(prev => ({
             ...prev,
             [aiMessage.id]: processedEvents
+          }));
+
+          setHistoricalTotalTimes(prev => ({
+            ...prev,
+            [aiMessage.id]: totalElapsedTime // Use frontend calculated time
           }));
         }
 
         // Clear live events
         setLiveActivityEvents([]);
+        setLiveExecutionSteps([]);
       }
     } catch (err) {
       console.error('API call failed:', err);
@@ -112,6 +121,7 @@ function AppContent() {
         setError('Failed to connect to the API');
       }
       setLiveActivityEvents([]);
+      setLiveExecutionSteps([]);
     } finally {
       setIsLoading(false);
     }
@@ -121,6 +131,7 @@ function AppContent() {
     setIsLoading(false);
     setError(null);
     setLiveActivityEvents([]);
+    setLiveExecutionSteps([]);
   }, []);
 
   return (
@@ -143,7 +154,9 @@ function AppContent() {
               onSubmit={handleSubmit}
               onCancel={handleCancel}
               liveActivityEvents={liveActivityEvents}
+              liveExecutionSteps={liveExecutionSteps}
               historicalActivities={historicalActivities}
+              historicalTotalTimes={historicalTotalTimes}
               error={error}
             />
           )}
