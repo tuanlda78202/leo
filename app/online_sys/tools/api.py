@@ -55,9 +55,9 @@ async def lifespan(app: FastAPI):
     """Handles startup and shutdown events for the API."""
     # Startup code
     opik_utils.configure()
-    
+
     yield
-    
+
     # Shutdown code
     try:
         opik_tracer = OpikTracer()

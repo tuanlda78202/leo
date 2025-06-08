@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     model_config: SettingsConfigDict = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8"
     )
-    
+
     # --- API Configuration ---
     LEO_SK: str | None = Field(
         default=None, description="API key for Leo API authentication."
