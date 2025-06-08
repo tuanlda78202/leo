@@ -43,4 +43,4 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 7820
 
 # Use the global uvicorn installation
-ENTRYPOINT ["uvicorn", "tools.api:app", "--host", "0.0.0.0", "--port", "7820"]
+ENTRYPOINT ["uvicorn", "tools.api:app", "--host", "0.0.0.0", "--port", "7820", "--reload"]
