@@ -8,4 +8,23 @@ services:
     volumes:
       - .:/app
     env_file:
-      - .env 
+      - .env
+    networks:
+      - leo-network
+
+  leo-online-frontend:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - leo-online-backend
+    networks:
+      - leo-network
+
+networks:
+  leo-network:
+    driver: bridge 

@@ -1,11 +1,8 @@
-import { InputForm } from "./InputForm";
+import { InputForm } from "@/components/InputForm";
+import React from "react";
 
 interface WelcomeScreenProps {
-  handleSubmit: (
-    submittedInputValue: string,
-    effort: string,
-    model: string
-  ) => void;
+  handleSubmit: (inputValue: string, effort: string, model: string) => void;
   onCancel: () => void;
   isLoading: boolean;
 }
@@ -17,7 +14,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
 }) => (
   <div className="flex flex-col items-center justify-center text-center px-4 flex-1 w-full max-w-3xl mx-auto gap-4">
     <div>
-      <h1 className="text-5xl md:text-6xl font-semibold text-neutral-100 mb-3">
+      <h1 className="text-5xl md:text-6xl font-semibold mb-3 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
         Hi, I'm Leo
       </h1>
       <p className="text-xl md:text-2xl text-neutral-400">
@@ -32,8 +29,5 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
         hasHistory={false}
       />
     </div>
-    <p className="text-xs text-neutral-500">
-      Powered by @tuanlda78202
-    </p>
   </div>
 );

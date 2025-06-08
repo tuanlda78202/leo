@@ -34,15 +34,12 @@ local-infra-down: local-mongodb-down
 # --- App ---
 api:
 	@echo "Starting API server..."
-	uvicorn tools.api:app --host 0.0.0.0 --port 7820
+	uvicorn tools.api:app --host 0.0.0.0 --port 7820 --reload
 
 eval-api:
 	@echo "Testing API..."
 	chmod +x ./tools/eval_api.sh
 	./tools/eval_api.sh $(LEO_SK)
-
-gradio:
-	uv run python -m tools.gradio --retriever-config=$(RETRIEVER_CONFIG) --ui
 
 eval-app:
 	uv run python -m tools.eval_app --retriever-config=$(RETRIEVER_CONFIG)
