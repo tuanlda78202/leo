@@ -15,6 +15,8 @@ tests/
 
 # Virtual environments
 .venv/
+.venv_offline/
+.venv_online/
 *.venv/
 venv/
 
@@ -37,3 +39,4 @@ temp_files/
 # Data files
 data/
 faiss/
+gguf/

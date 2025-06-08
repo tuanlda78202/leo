@@ -1,10 +1,7 @@
 services:
-  local_dev_atlas:
+  leo_atlas:
     image: mongodb/mongodb-atlas-local:8.0
     hostname: leo_db
-    build:
-      context: .
-      dockerfile: db.Dockerfile
     ports:
       - 27017:27017
     environment:
