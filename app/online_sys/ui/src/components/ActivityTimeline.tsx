@@ -26,14 +26,19 @@ export interface ProcessedEvent {
 interface ActivityTimelineProps {
   processedEvents: ProcessedEvent[];
   isLoading: boolean;
+  thinkingTime?: number; // Live thinking time when loading
+  totalCompletedTime?: number; // Total time when completed
 }
 
 export function ActivityTimeline({
   processedEvents,
   isLoading,
+  thinkingTime,
+  totalCompletedTime,
 }: ActivityTimelineProps) {
   const [isTimelineCollapsed, setIsTimelineCollapsed] =
     useState<boolean>(false);
+
   const getEventIcon = (title: string, index: number) => {
     if (index === 0 && isLoading && processedEvents.length === 0) {
       return <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />;
@@ -66,7 +71,18 @@ export function ActivityTimeline({
             className="flex items-center justify-start text-sm w-full cursor-pointer gap-2 text-foreground"
             onClick={() => setIsTimelineCollapsed(!isTimelineCollapsed)}
           >
-            Thinking
+            <span>Thinking</span>
+            {isLoading && thinkingTime !== undefined ? (
+              // Show live thinking time while loading
+              <span className="font-mono text-muted-foreground">
+                {thinkingTime.toFixed(1)}s
+              </span>
+            ) : !isLoading && totalCompletedTime !== undefined ? (
+              // Show total time when completed (remove the > 0 check)
+              <span className="font-mono text-muted-foreground">
+                {totalCompletedTime.toFixed(1)}s
+              </span>
+            ) : null}
             {isTimelineCollapsed ? (
               <ChevronDown className="h-4 w-4 mr-2" />
             ) : (
