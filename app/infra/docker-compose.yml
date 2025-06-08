@@ -1,7 +1,7 @@
 services:
-  local_dev_atlas:
+  leo_db:
     image: mongodb/mongodb-atlas-local:8.0
-    hostname: leo_atlas
+    hostname: leo_db
     ports:
       - 27017:27017
     environment:
