@@ -7,11 +7,12 @@
   
   <p>
     <img src="https://img.shields.io/github/last-commit/tuanlda78202/leo" alt="Last Commit">
-    <img src="https://img.shields.io/github/commit-activity/m/tuanlda78202/leo" alt="Commit Activity">
     <img src="https://img.shields.io/github/issues/tuanlda78202/leo" alt="Issues">
     <img src="https://img.shields.io/github/issues-pr/tuanlda78202/leo" alt="Pull Requests">
   </p>
-</div> 
 
-https://github.com/user-attachments/assets/771d6b08-20a5-41eb-af54-7d60be71573d
-
+  <p align="center">
+  <img src="https://github.com/user-attachments/assets/4aba100d-04b9-4cfb-90ad-35c03697ae3a" alt="animated" />
+  </p>
+  
+</div>
