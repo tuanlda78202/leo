@@ -1,5 +1,5 @@
 services:
-  leo_atlas:
+  leo_db:
     image: mongodb/mongodb-atlas-local:8.0
     hostname: leo_db
     ports:
