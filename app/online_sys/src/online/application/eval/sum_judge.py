@@ -33,14 +33,14 @@ class SummaryJudge(base_metric.BaseMetric):
         self.llm_client = LiteLLMChatModel(model_name=model_name)
 
         self.prompt_template = """
-        You are an impartial expert judge. Evaluate the quality of a given answer to an instruction based on how long the answer it is. 
+        You are an impartial expert judge. Evaluate the quality of a given answer to an instruction based on how long the answer it is.
 
         How to decide whether the lengths of the answer is appropriate:
         1 (Poor): Too short, does not answer the question OR too long, it contains too much noise and un-required information, where the answer could be more concise.
         2 (Good): Good length balance of the answer, but the answer is still too short OR too long.
         3 (Excellent): The length of the answer is appropriate, it answers the question and is not too long or too short.
 
-        Example of bad answer that is too short: 
+        Example of bad answer that is too short:
         <answer>
         LangChain, LlamaIndex, Haystack
         </answer>
@@ -58,9 +58,9 @@ class SummaryJudge(base_metric.BaseMetric):
 
         Example of excellent answer that is appropriate:
         <answer>
-        1. LangChain is a powerful framework for building LLM applications that provides abstractions for prompting, memory, agents, and chains. It has extensive integrations with various tools and services, making it highly flexible but potentially complex to learn. 
-        2. LlamaIndex specializes in data ingestion and indexing for LLMs, offering sophisticated ways to structure and query your data through vector stores, keyword indices, and tree indices. It excels at RAG applications but may be overkill for simpler use cases. 
-        3. Haystack is an end-to-end framework focused on question-answering and semantic search, with strong document processing capabilities and ready-to-use pipelines. While powerful, its learning curve can be steep for beginners. 
+        1. LangChain is a powerful framework for building LLM applications that provides abstractions for prompting, memory, agents, and chains. It has extensive integrations with various tools and services, making it highly flexible but potentially complex to learn.
+        2. LlamaIndex specializes in data ingestion and indexing for LLMs, offering sophisticated ways to structure and query your data through vector stores, keyword indices, and tree indices. It excels at RAG applications but may be overkill for simpler use cases.
+        3. Haystack is an end-to-end framework focused on question-answering and semantic search, with strong document processing capabilities and ready-to-use pipelines. While powerful, its learning curve can be steep for beginners.
         </answer>
 
         Instruction: {input}

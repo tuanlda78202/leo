@@ -22,5 +22,5 @@ parameters:
 
   processing_batch_size: 2
   processing_max_workers: 2
-  
+
   device: cuda

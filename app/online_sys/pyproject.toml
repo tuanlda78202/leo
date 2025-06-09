@@ -25,6 +25,7 @@ dependencies = [
     "fastapi>=0.111.0",
     "uvicorn[standard]>=0.30.0",
     "python-dotenv>=1.0.1",
+    "pre-commit>=4.2.0",
 ]
 
 [dependency-groups]

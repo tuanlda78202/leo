@@ -17,7 +17,7 @@ CRAWLED_LOCAL_DATA_PATH := data/crawled
 # --- Infrastructure ---
 local-mongodb-up:
 	@echo "Starting local mongodb..."
-	docker compose -f ../infra/docker-compose.yml up --build -d 
+	docker compose -f ../infra/docker-compose.yml up --build -d
 
 local-mongodb-stop:
 	@echo "Stopping local mongodb..."
@@ -46,7 +46,7 @@ validate_aws_credentials:
 	@echo "Validating AWS credentials..."
 	uv run python -m tools.validate_aws_credentials
 
-s3-upload-notion: 
+s3-upload-notion:
 	@echo "Uploading raw Notion dataset to S3 bucket: $(AWS_S3_BUCKET_NAME)/leo/notion"
 	uv run python -m tools.use_s3 upload $(NOTION_LOCAL_DATA_PATH) $(AWS_S3_BUCKET_NAME) --s3-prefix leo/notion
 
@@ -62,7 +62,7 @@ s3-download-crawled:
 	@echo "Downloading crawled dataset from S3 bucket: $(AWS_S3_BUCKET_NAME)/leo/crawled/crawled.zip"
 	uv run python -m tools.use_s3 download $(AWS_S3_BUCKET_NAME) leo/crawled/crawled.zip $(CRAWLED_LOCAL_DATA_PATH) --no-sign-request
 
-# -- Offline ML pipelines -- 
+# -- Offline ML pipelines --
 collect-notion-data-pipeline:
 	@echo "Collecting Notion data..."
 	uv run python -m tools.run --run-collect-notion-data-pipeline --no-cache
@@ -79,20 +79,20 @@ rag-index-pipeline:
 	@echo "Running RAG index pipeline..."
 	uv run python -m tools.run --run-rag-index-pipeline --no-cache
 
-# -- Test API -- 
+# -- Test API --
 
 # --- PyTest ---
 
 # -- CI --
 format-fix:
 	uv run ruff format $(CHECK_DIRS)
-	uv run ruff check --select I --fix 
+	uv run ruff check --select I --fix
 
 lint-fix:
 	uv run ruff check --fix
 
 format-check:
-	uv run ruff format --check $(CHECK_DIRS) 
+	uv run ruff format --check $(CHECK_DIRS)
 	uv run ruff check -e
 	uv run ruff check --select I -e
 

@@ -54,4 +54,4 @@ export const ThemeToggle: React.FC = () => {
             {getIcon()}
         </Button>
     );
-}; 
+};

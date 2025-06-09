@@ -9,9 +9,9 @@ from pipelines import collect_notion_data, etl, gen_data, rag_index
 
 @click.command(
     help="""
-Leo CLI v0.0.1. 
+Leo CLI v0.0.1.
 
-Main entry point for the pipeline execution. 
+Main entry point for the pipeline execution.
 This entrypoint is where everything comes together.
 
 Run a pipeline with the required parameters. This executes
@@ -23,11 +23,11 @@ Examples:
   \b
   # Run the pipeline with default options
   python run.py
-               
+
   \b
   # Run the pipeline without cache
   python run.py --no-cache
-  
+
   \b
   # Run only the Notion data collection pipeline
   python run.py --run-collect-notion-data

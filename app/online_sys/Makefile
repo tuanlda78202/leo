@@ -15,7 +15,7 @@ RETRIEVER_CONFIG ?= configs/rag_index.yaml
 # --- Infrastructure ---
 local-mongodb-up:
 	@echo "Starting local mongodb..."
-	docker compose -f ../infra/docker-compose.yml up --build -d 
+	docker compose -f ../infra/docker-compose.yml up --build -d
 
 local-mongodb-stop:
 	@echo "Stopping local mongodb..."
@@ -47,19 +47,19 @@ eval-app:
 # -- CI --
 format-fix:
 	uv run ruff format $(CHECK_DIRS)
-	uv run ruff check --select I --fix 
+	uv run ruff check --select I --fix
 
 lint-fix:
 	uv run ruff check --fix
 
 format-check:
-	uv run ruff format --check $(CHECK_DIRS) 
+	uv run ruff format --check $(CHECK_DIRS)
 	uv run ruff check -e
 	uv run ruff check --select I -e
 
 lint-check:
 	uv run ruff check $(CHECK_DIRS)
-	
+
 # --- Utilities ---
 
 help:

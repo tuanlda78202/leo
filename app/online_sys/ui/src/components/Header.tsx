@@ -29,4 +29,4 @@ export const Header: React.FC<HeaderProps> = ({ hasHistory }) => {
             </div>
         </>
     );
-}; 
+};

@@ -52,16 +52,16 @@ class ContextualSummarizationAgent:
     """
 
     SYSTEM_PROMPT_TEMPLATE = """You are a helpful assistant specialized in summarizing documents relative to a given chunk.
-    <document> 
+    <document>
     {content}
-    </document> 
-    
-    Here is the chunk we want to situate within the whole document 
-    <chunk> 
+    </document>
+
+    Here is the chunk we want to situate within the whole document
+    <chunk>
     {chunk}
-    </chunk> 
-    
-    Please give a short succinct context of maximum {characters} characters to situate this chunk within the overall document for the purposes of improving search retrieval of the chunk. Answer only with the succinct context and nothing else. 
+    </chunk>
+
+    Please give a short succinct context of maximum {characters} characters to situate this chunk within the overall document for the purposes of improving search retrieval of the chunk. Answer only with the succinct context and nothing else.
     """
 
     def __init__(
@@ -278,8 +278,8 @@ class SimpleSummarizationAgent:
     SYSTEM_PROMPT_TEMPLATE = """Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
 
     ### Instruction:
-    You are a helpful assistant specialized in summarizing documents for the purposes of improving semantic and keyword search retrieval. 
-    Generate a concise TL;DR summary in plain text format having a maximum of {characters} characters of the key findings from the provided documents, 
+    You are a helpful assistant specialized in summarizing documents for the purposes of improving semantic and keyword search retrieval.
+    Generate a concise TL;DR summary in plain text format having a maximum of {characters} characters of the key findings from the provided documents,
     highlighting the most significant insights. Answer only with the succinct context and nothing else.
 
     ### Input:
