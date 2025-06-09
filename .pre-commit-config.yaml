@@ -9,6 +9,8 @@ repos:
       - id: check-yaml
       - id: detect-private-key
       - id: mixed-line-ending
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
 
   # Markdown linter
   - repo: https://github.com/igorshubovych/markdownlint-cli
@@ -16,7 +18,11 @@ repos:
     hooks:
       - id: markdownlint
         args:
-          - "--disable=MD013"
+          - "--disable"
+          - "MD013"
+          - "MD033"
+          - "MD041"
+          - "--"
 
   # Typos
   - repo: https://github.com/crate-ci/typos

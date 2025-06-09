@@ -168,15 +168,14 @@ class LogInterceptor:
     def parse_tool_arguments(self, args_str: str) -> Dict[str, Any]:
         """Parse tool arguments from string"""
         try:
-            # Try to parse as Python literal
             args = ast.literal_eval(args_str)
             return args if isinstance(args, dict) else {"raw": args_str}
-        except:
+        except (ValueError, SyntaxError):
             try:
                 # Try to parse as JSON
                 args = json.loads(args_str)
                 return args if isinstance(args, dict) else {"raw": args_str}
-            except:
+            except (ValueError, json.JSONDecodeError):
                 # If all else fails, try to extract query manually
                 query_match = re.search(r"'query':\s*'([^']*)'", args_str)
                 if query_match:

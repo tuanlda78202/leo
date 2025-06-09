@@ -12,7 +12,7 @@ class MongoDBRetrieverTool(Tool):
     name = "mongodb_vector_search_retriever"
     description = """Use this tool to search and retrieve relevant documents from a knowledge base using semantic search.
     This tool performs similarity-based search to find the most relevant documents matching the query.
-    
+
     Best used when you need to:
     - Find specific information from stored documents
     - Get context about a topic

@@ -175,3 +175,4 @@ cython_debug/
 
 # Project
 uv.lock
+note.txt

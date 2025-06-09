@@ -27,4 +27,4 @@ services:
 
 networks:
   leo-network:
-    driver: bridge 
+    driver: bridge
