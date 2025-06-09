@@ -6,9 +6,9 @@
   </p>
   
   <p>
-    <img src="https://img.shields.io/github/last-commit/tuanlda78202/leo" alt="Last Commit">
     <img src="https://img.shields.io/github/issues/tuanlda78202/leo" alt="Issues">
     <img src="https://img.shields.io/github/issues-pr/tuanlda78202/leo" alt="Pull Requests">
+    <img src="https://img.shields.io/github/last-commit/tuanlda78202/leo" alt="Last Commit">
   </p>
 
   <p align="center">
