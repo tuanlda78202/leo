@@ -1,7 +1,9 @@
 services:
-  leo_db:
+  leo-offline-db:
     image: mongodb/mongodb-atlas-local:8.0
-    hostname: leo_db
+    build:
+      context: ../offline_sys
+      dockerfile: ../infra/db.Dockerfile
     ports:
       - 27017:27017
     environment:
@@ -10,6 +12,44 @@ services:
     volumes:
       - data:/data/db
       - config:/data/configdb
+  leo-online-be:
+    build:
+      context: ../online_sys       
+      dockerfile: ../infra/be.Dockerfile  
+    ports:
+      - "7820:7820"
+    volumes:
+      - ../online_sys:/app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]          
+    env_file:
+      - ../online_sys/.env
+    depends_on:
+      - leo-offline-db          
+    networks:
+      - leo-network
+
+  leo-online-fe:
+    build:
+      context: ../online_sys/ui   
+      dockerfile: ../../infra/fe.Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - ../online_sys/.env
+    depends_on:
+      - leo-online-be
+    networks:
+      - leo-network
+
+networks:
+  leo-network:
+    driver: bridge
 
 volumes:
   data:

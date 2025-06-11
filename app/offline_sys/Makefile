@@ -15,31 +15,29 @@ NOTION_LOCAL_DATA_PATH := data/notion
 CRAWLED_LOCAL_DATA_PATH := data/crawled
 
 # --- Infrastructure ---
-local-mongodb-up:
+# ! MongoDB
+offline-mongodb-up:
 	@echo "Starting local mongodb..."
-	docker compose -f ../infra/docker-compose.yml up --build -d
-
-local-mongodb-stop:
+	docker compose -f ../infra/docker-compose.yml up --build -d leo-offline-db
+offline-mongodb-stop:
 	@echo "Stopping local mongodb..."
-	docker compose -f ../infra/docker-compose.yml stop
-
-local-mongodb-down:
+	docker compose -f ../infra/docker-compose.yml stop leo-offline-db
+offline-mongodb-down:
 	@echo "Stopping and removing local mongodb..."
-	docker compose -f ../infra/docker-compose.yml down
+	docker compose -f ../infra/docker-compose.yml down leo-offline-db
 
-local-zenml-up:
+# ! ZenML
+offline-zenml-up:
 	@echo "Starting local zenml server..."
 	uv run zenml login --local
-
-local-zenml-stop:
+offline-zenml-stop:
 	@echo "Stopping local zenml server..."
 	uv run zenml logout --local
 
-local-infra-up: local-mongodb-up local-zenml-up
-
-local-infra-stop: local-mongodb-stop local-zenml-stop
-
-local-infra-down: local-mongodb-down local-zenml-stop
+# ! Full Infra
+offline-infra-up: offline-mongodb-up offline-zenml-up
+offline-infra-stop: offline-mongodb-stop offline-zenml-stop
+offline-infra-down: offline-mongodb-down offline-zenml-stop
 
 # --- AWS ---
 validate_aws_credentials:
