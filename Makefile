@@ -12,7 +12,7 @@ define run_with_venv
 	fi
 endef
 
-.PHONY: pre-commit format-check lint-check format-fix lint-fix ci install setup-and-check check
+.PHONY: pre-commit format-check lint-check format-fix lint-fix ci install setup-and-ci check
 
 # Pre-commit
 pre-commit:
@@ -50,7 +50,7 @@ install:
 	$(call run_with_venv,cd app/online_sys && uv pip install -e .)
 
 # Setup everything and run checks
-setup-and-check: install ci
+setup-and-ci: install ci
 
 # Run full workflow
 check: pre-commit ci
