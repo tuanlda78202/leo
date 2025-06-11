@@ -1,9 +1,12 @@
-name: Traffic Views
+name: traffic
 
 on:
   schedule:
     - cron: "0 * * * *" # every hour
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -19,10 +22,47 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/traffic/views \
             > traffic.json
 
-      - name: Publish to gh-pages
+      - name: Create index.html
+        run: |
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Leo Repository Traffic</title>
+              <meta charset="UTF-8">
+              <style>
+                  body { font-family: Arial, sans-serif; margin: 40px; }
+                  .container { max-width: 800px; margin: 0 auto; }
+                  pre { background: #f4f4f4; padding: 20px; border-radius: 5px; overflow-x: auto; }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>Leo Repository Traffic Data</h1>
+                  <p>Last updated: <span id="lastUpdate"></span></p>
+                  <h2>Raw Traffic Data:</h2>
+                  <pre id="trafficData">Loading...</pre>
+              </div>
+
+              <script>
+                  document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+
+                  fetch('./traffic.json')
+                      .then(response => response.json())
+                      .then(data => {
+                          document.getElementById('trafficData').textContent = JSON.stringify(data, null, 2);
+                      })
+                      .catch(error => {
+                          document.getElementById('trafficData').textContent = 'Error loading traffic data: ' + error;
+                      });
+              </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Publish to traffic-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
-          publish_branch: gh-pages
-          keep_history: true
+          publish_branch: traffic-pages
