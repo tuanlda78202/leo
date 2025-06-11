@@ -14,8 +14,8 @@ services:
       - config:/data/configdb
   leo-online-be:
     build:
-      context: ../online_sys       
-      dockerfile: ../infra/be.Dockerfile  
+      context: ../online_sys
+      dockerfile: ../infra/be.Dockerfile
     ports:
       - "7820:7820"
     volumes:
@@ -26,17 +26,17 @@ services:
           devices:
             - driver: nvidia
               count: all
-              capabilities: [gpu]          
+              capabilities: [gpu]
     env_file:
       - ../online_sys/.env
     depends_on:
-      - leo-offline-db          
+      - leo-offline-db
     networks:
       - leo-network
 
   leo-online-fe:
     build:
-      context: ../online_sys/ui   
+      context: ../online_sys/ui
       dockerfile: ../../infra/fe.Dockerfile
     ports:
       - "3000:3000"
