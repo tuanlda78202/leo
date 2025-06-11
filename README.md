@@ -6,6 +6,7 @@
     <img src="https://img.shields.io/github/actions/workflow/status/tuanlda78202/leo/pre-commit-checks.yaml?branch=main&label=pre-commit&logo=pre-commit&logoColor=white" alt="Pre-commit Status">
     <img src="https://img.shields.io/github/actions/workflow/status/tuanlda78202/leo/ci.yaml?branch=main&label=ci&logo=github" alt="CI Status">
     <img src="https://img.shields.io/github/last-commit/tuanlda78202/leo" alt="Last Commit">
+    <img src="https://img.shields.io/badge/dynamic/json?label=Views&url=https://tuanlda78202.github.io/leo/traffic.json&query=count" alt="GitHub Views">
   </p>
 
   <p align="center">
