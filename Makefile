@@ -12,21 +12,27 @@ define run_with_venv
 	fi
 endef
 
-.PHONY: pre-commit format-check lint-check format-fix lint-fix ci-local
+.PHONY: pre-commit format-check lint-check format-fix lint-fix ci install setup-and-check check
 
 # Pre-commit
 pre-commit:
+	@echo "⚒️ Running pre-commit hooks..."
 	$(call run_with_venv,pre-commit run --all-files)
+	@echo "✅ Pre-commit hooks completed successfully!"
 
 # -- CI --
 
 format-check:
+	@echo -en "\n⚒️ Running CI format check...\n"
 	$(call run_with_venv,uv run ruff format --check $(CHECK_DIRS))
 	$(call run_with_venv,uv run ruff check -e)
 	$(call run_with_venv,uv run ruff check --select I -e)
+	@echo "✅ Format check completed successfully!"
 
 lint-check:
+	@echo -en "\n⚒️ Running CI lint check...\n"
 	$(call run_with_venv,uv run ruff check $(CHECK_DIRS))
+	@echo "✅ Lint check completed successfully!"
 
 format-fix:
 	$(call run_with_venv,uv run ruff format $(CHECK_DIRS))
@@ -37,7 +43,6 @@ lint-fix:
 
 # Run all CI checks locally
 ci: format-check lint-check
-	@echo "✅ All CI checks passed locally!"
 
 # Install dependencies
 install:
@@ -45,4 +50,7 @@ install:
 	$(call run_with_venv,cd app/online_sys && uv pip install -e .)
 
 # Setup everything and run checks
-setup-and-check: install ci-local
+setup-and-check: install ci
+
+# Run full workflow
+check: pre-commit ci

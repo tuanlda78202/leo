@@ -12,23 +12,43 @@ CHECK_DIRS := .
 RETRIEVER_CONFIG ?= configs/rag_index.yaml
 
 # --- Infrastructure ---
-local-mongodb-up:
-	@echo "Starting local mongodb..."
-	docker compose -f ../infra/docker-compose.yml up --build -d
+# ! MongoDB
+offline-mongodb-up:
+	@echo "✅ Starting local MongoDB..."
+	docker compose -f ../infra/docker-compose.yml up --build -d leo-offline-db
+offline-mongodb-stop:
+	@echo "🛑 Stopping local MongoDB..."
+	docker compose -f ../infra/docker-compose.yml stop leo-offline-db
+offline-mongodb-down:
+	@echo "❌Stopping and removing local MongoDB..."
+	docker compose -f ../infra/docker-compose.yml down leo-offline-db
 
-local-mongodb-stop:
-	@echo "Stopping local mongodb..."
-	docker compose -f ../infra/docker-compose.yml stop
+# ! BE
+online-be-up:
+	@echo "✅ Starting online BE..."
+	docker compose -f ../infra/docker-compose.yml up --build -d leo-online-be
+online-be-stop:
+	@echo "🛑 Stopping online BE..."
+	docker compose -f ../infra/docker-compose.yml stop leo-online-be
+online-be-down:
+	@echo "❌ Stopping and removing online BE..."
+	docker compose -f ../infra/docker-compose.yml down leo-online-be
 
-local-mongodb-down:
-	@echo "Stopping and removing local mongodb..."
-	docker compose -f ../infra/docker-compose.yml down
+# ! FE
+online-fe-up:
+	@echo "✅ Starting online FE..."
+	docker compose -f ../infra/docker-compose.yml up --build -d leo-online-fe
+online-fe-stop:
+	@echo "🛑 Stopping online FE..."
+	docker compose -f ../infra/docker-compose.yml stop leo-online-fe
+online-fe-down:
+	@echo "❌ Stopping and removing online FE..."
+	docker compose -f ../infra/docker-compose.yml down leo-online-fe
 
-local-infra-up: local-mongodb-up
-
-local-infra-stop: local-mongodb-stop
-
-local-infra-down: local-mongodb-down
+# ! Full Infra
+online-infra-up: offline-mongodb-up online-be-up online-fe-up
+online-infra-stop: offline-mongodb-stop online-be-stop online-fe-stop
+online-infra-down: offline-mongodb-down online-be-down online-fe-down
 
 # --- App ---
 api:
