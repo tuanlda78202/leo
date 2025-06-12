@@ -45,6 +45,11 @@ online-fe-down:
 	@echo "❌ Stopping and removing online FE..."
 	docker compose -f ../infra/docker-compose.yml down leo-online-fe
 
+# ! Dev 
+online-dev-up: offline-mongodb-up online-be-up
+online-dev-stop: offline-mongodb-stop online-be-stop
+online-dev-down: offline-mongodb-down online-be-down
+
 # ! Full Infra
 online-infra-up: offline-mongodb-up online-be-up online-fe-up
 online-infra-stop: offline-mongodb-stop online-be-stop online-fe-stop

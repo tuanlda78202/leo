@@ -1,9 +1,6 @@
 services:
   leo-offline-db:
     image: mongodb/mongodb-atlas-local:8.0
-    build:
-      context: ../offline_sys
-      dockerfile: ../infra/db.Dockerfile
     ports:
       - 27017:27017
     environment:
