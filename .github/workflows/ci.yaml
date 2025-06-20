@@ -57,7 +57,7 @@ jobs:
           severity: warning
           ignore_paths: |
             ./.git
-            ./node_modules
             ./.venv
-            ./.venv_offline
-            ./.venv_online
+            ./app/offline_sys/.venv_offline
+            ./app/online_sys/.venv_online
+            ./app/online_sys/ui/node_modules
