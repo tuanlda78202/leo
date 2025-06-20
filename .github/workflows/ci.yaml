@@ -41,3 +41,23 @@ jobs:
 
       - name: 🔎 Lint Check
         run: uv run ruff check .
+
+  shellcheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐚 Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          scandir: "."
+          format: gcc
+          severity: warning
+          ignore_paths: |
+            ./.git
+            ./node_modules
+            ./.venv
+            ./.venv_offline
+            ./.venv_online

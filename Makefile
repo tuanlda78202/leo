@@ -12,7 +12,7 @@ define run_with_venv
 	fi
 endef
 
-.PHONY: pre-commit format-check lint-check format-fix lint-fix ci install setup-and-ci check
+.PHONY: pre-commit format-check lint-check format-fix lint-fix shellcheck ci install setup-and-ci check
 
 # Pre-commit
 pre-commit:
@@ -34,6 +34,16 @@ lint-check:
 	$(call run_with_venv,uv run ruff check $(CHECK_DIRS))
 	@echo "✅ Lint check completed successfully!"
 
+shellcheck:
+	@echo -en "\n⚒️ Running ShellCheck...\n"
+	@if command -v shellcheck >/dev/null 2>&1; then \
+		find . -name "*.sh" -type f -exec shellcheck -f gcc -S warning {} \; ; \
+		echo "✅ ShellCheck completed successfully!"; \
+	else \
+		echo "❌ ShellCheck not installed. Install with: brew install shellcheck (macOS) or apt-get install shellcheck (Ubuntu)"; \
+		exit 1; \
+	fi
+
 format-fix:
 	$(call run_with_venv,uv run ruff format $(CHECK_DIRS))
 	$(call run_with_venv,uv run ruff check --select I --fix)
@@ -42,7 +52,7 @@ lint-fix:
 	$(call run_with_venv,uv run ruff check --fix)
 
 # Run all CI checks locally
-ci: format-check lint-check
+ci: format-check lint-check shellcheck
 
 # Install dependencies
 install:
