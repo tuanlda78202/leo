@@ -75,5 +75,5 @@ jobs:
                 $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
             # Use correct path to the prod compose file
-            docker-compose -f app/infra/docker-compose.prod.yaml pull
-            docker-compose -f app/infra/docker-compose.prod.yaml up -d --remove-orphans
+            docker compose -f app/infra/docker-compose.prod.yaml pull
+            docker compose -f app/infra/docker-compose.prod.yaml up -d --remove-orphans
