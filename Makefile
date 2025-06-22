@@ -76,17 +76,6 @@ act-version:
 		exit 1; \
 	fi
 
-act-list:
-	@echo "📋 Listing available workflows and jobs..."
-	@if command -v gh >/dev/null 2>&1 && gh extension list | grep -q gh-act; then \
-		gh act -l; \
-	elif command -v act >/dev/null 2>&1; then \
-		act -l; \
-	else \
-		echo "❌ Act not found. Run 'make act-install' first"; \
-		exit 1; \
-	fi
-
 act-check:
 	@echo "⚒️ Validating GitHub Actions workflows..."
 	@if command -v gh >/dev/null 2>&1 && gh extension list | grep -q gh-act; then \

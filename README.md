@@ -20,7 +20,7 @@
 ```plain
 @misc{tuanlda78202,
   author = {Tuan (Charles) Le Duc Anh},
-  title = {Leo 🦁},
+  title = {Leo – Production-Grade Agentic RAG & LLM-Ops Platform},
   year = {2025},
   publisher = {GitHub},
   journal = {GitHub repository},
