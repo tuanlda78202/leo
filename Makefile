@@ -90,15 +90,9 @@ act-list:
 act-check:
 	@echo "⚒️ Validating GitHub Actions workflows..."
 	@if command -v gh >/dev/null 2>&1 && gh extension list | grep -q gh-act; then \
-		echo "📋 Available workflows:"; \
 		gh act -l; \
-		echo "🔍 Checking workflow syntax..."; \
-		gh act -n 2>/dev/null || gh act --list 2>/dev/null || echo "✅ Workflows appear to be valid"; \
 	elif command -v act >/dev/null 2>&1; then \
-		echo "📋 Available workflows:"; \
 		act -l; \
-		echo "🔍 Checking workflow syntax..."; \
-		act -n 2>/dev/null || act --list 2>/dev/null || echo "✅ Workflows appear to be valid"; \
 	else \
 		echo "❌ Act not found. Run 'make act-install' first"; \
 		exit 1; \
