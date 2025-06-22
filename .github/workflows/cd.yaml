@@ -1,0 +1,79 @@
+name: cd
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Which image tag to build & deploy"
+        required: true
+        default: "latest"
+
+env:
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  IMAGE_TAG: ${{ github.event.inputs.image_tag }}
+
+jobs:
+  build-push:
+    name: Build & Push to ECR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build & push backend image
+        uses: docker/build-push-action@v4
+        with:
+          context: app/online_sys
+          file: app/infra/be.Dockerfile
+          push: true
+          tags: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/leo-online-be:${{ env.IMAGE_TAG }}
+
+      - name: Build & push frontend image
+        uses: docker/build-push-action@v4
+        with:
+          context: app/online_sys/ui
+          file: app/infra/fe.Dockerfile
+          push: true
+          tags: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/leo-online-fe:${{ env.IMAGE_TAG }}
+
+  deploy:
+    name: Deploy via Docker Compose on EC2
+    needs: build-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH & deploy with Docker Compose
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          script: |
+            cd /home/ubuntu/leo
+
+            export AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}
+            export AWS_REGION=${{ env.AWS_REGION }}
+            export IMAGE_TAG=${{ env.IMAGE_TAG }}
+
+            aws ecr get-login-password --region $AWS_REGION \
+              | docker login --username AWS \
+                            --password-stdin \
+                $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+            # Use correct path to the prod compose file
+            docker compose -f app/infra/docker-compose.prod.yaml pull
+            docker compose -f app/infra/docker-compose.prod.yaml up -d --remove-orphans

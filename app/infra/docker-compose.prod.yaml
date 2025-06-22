@@ -1,0 +1,43 @@
+services:
+  leo-offline-db:
+    image: mongodb/mongodb-atlas-local:8.0
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=${MONGODB_INITDB_ROOT_USERNAME}
+      - MONGODB_INITDB_ROOT_PASSWORD=${MONGODB_INITDB_ROOT_PASSWORD}
+    volumes:
+      - data:/data/db
+      - config:/data/configdb
+    networks:
+      - leo-network
+
+  leo-online-be:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/leo-online-be:${IMAGE_TAG}
+    env_file:
+      - ../online_sys/.env
+    ports:
+      - "7820:7820"
+    depends_on:
+      - leo-offline-db
+    networks:
+      - leo-network
+
+  leo-online-fe:
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/leo-online-fe:${IMAGE_TAG}
+    env_file:
+      - ../online_sys/.env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - leo-online-be
+    networks:
+      - leo-network
+
+networks:
+  leo-network:
+    driver: bridge
+
+volumes:
+  data:
+  config:

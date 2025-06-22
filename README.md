@@ -3,10 +3,12 @@
   <p>
     <img src="https://img.shields.io/github/issues/tuanlda78202/leo?color=AD0E0E" alt="Issues">
     <img src="https://img.shields.io/github/issues-pr/tuanlda78202/leo" alt="Pull Requests">
+    <img src="https://img.shields.io/badge/dynamic/json?color=AD0E0E&label=Views&url=https://raw.githubusercontent.com/tuanlda78202/leo/gh-pages/traffic.json&query=count" alt="GitHub Views">
+  </p>
+  <p>
     <img src="https://img.shields.io/github/actions/workflow/status/tuanlda78202/leo/pre-commit-checks.yaml?branch=main&label=pre-commit&logo=pre-commit&logoColor=white" alt="Pre-commit Status">
     <img src="https://img.shields.io/github/actions/workflow/status/tuanlda78202/leo/ci.yaml?branch=main&label=ci&logo=github" alt="CI Status">
     <img src="https://img.shields.io/github/last-commit/tuanlda78202/leo" alt="Last Commit">
-    <img src="https://img.shields.io/badge/dynamic/json?color=AD0E0E&label=Views&url=https://raw.githubusercontent.com/tuanlda78202/leo/gh-pages/traffic.json&query=count" alt="GitHub Views">
   </p>
 
   <p align="center">

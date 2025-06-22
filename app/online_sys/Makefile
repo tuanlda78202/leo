@@ -15,35 +15,35 @@ RETRIEVER_CONFIG ?= configs/rag_index.yaml
 # ! MongoDB
 offline-mongodb-up:
 	@echo "✅ Starting local MongoDB..."
-	docker compose -f ../infra/docker-compose.yml up --build -d leo-offline-db
+	docker compose -f ../infra/docker-compose.dev.yaml up --build -d leo-offline-db
 offline-mongodb-stop:
 	@echo "🛑 Stopping local MongoDB..."
-	docker compose -f ../infra/docker-compose.yml stop leo-offline-db
+	docker compose -f ../infra/docker-compose.dev.yaml stop leo-offline-db
 offline-mongodb-down:
 	@echo "❌Stopping and removing local MongoDB..."
-	docker compose -f ../infra/docker-compose.yml down leo-offline-db
+	docker compose -f ../infra/docker-compose.dev.yaml down leo-offline-db
 
 # ! BE
 online-be-up:
 	@echo "✅ Starting online BE..."
-	docker compose -f ../infra/docker-compose.yml up --build -d leo-online-be
+	docker compose -f ../infra/docker-compose.dev.yaml up --build -d leo-online-be
 online-be-stop:
 	@echo "🛑 Stopping online BE..."
-	docker compose -f ../infra/docker-compose.yml stop leo-online-be
+	docker compose -f ../infra/docker-compose.dev.yaml stop leo-online-be
 online-be-down:
 	@echo "❌ Stopping and removing online BE..."
-	docker compose -f ../infra/docker-compose.yml down leo-online-be
+	docker compose -f ../infra/docker-compose.dev.yaml down leo-online-be
 
 # ! FE
 online-fe-up:
 	@echo "✅ Starting online FE..."
-	docker compose -f ../infra/docker-compose.yml up --build -d leo-online-fe
+	docker compose -f ../infra/docker-compose.dev.yaml up --build -d leo-online-fe
 online-fe-stop:
 	@echo "🛑 Stopping online FE..."
-	docker compose -f ../infra/docker-compose.yml stop leo-online-fe
+	docker compose -f ../infra/docker-compose.dev.yaml stop leo-online-fe
 online-fe-down:
 	@echo "❌ Stopping and removing online FE..."
-	docker compose -f ../infra/docker-compose.yml down leo-online-fe
+	docker compose -f ../infra/docker-compose.dev.yaml down leo-online-fe
 
 # ! Dev
 online-dev-up: offline-mongodb-up online-be-up

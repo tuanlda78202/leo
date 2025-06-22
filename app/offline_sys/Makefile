@@ -18,13 +18,13 @@ CRAWLED_LOCAL_DATA_PATH := data/crawled
 # ! MongoDB
 offline-mongodb-up:
 	@echo "Starting local mongodb..."
-	docker compose -f ../infra/docker-compose.yml up --build -d leo-offline-db
+	docker compose -f ../infra/docker-compose.dev.yaml up --build -d leo-offline-db
 offline-mongodb-stop:
 	@echo "Stopping local mongodb..."
-	docker compose -f ../infra/docker-compose.yml stop leo-offline-db
+	docker compose -f ../infra/docker-compose.dev.yaml stop leo-offline-db
 offline-mongodb-down:
 	@echo "Stopping and removing local mongodb..."
-	docker compose -f ../infra/docker-compose.yml down leo-offline-db
+	docker compose -f ../infra/docker-compose.dev.yaml down leo-offline-db
 
 # ! ZenML
 offline-zenml-up:
