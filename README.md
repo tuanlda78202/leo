@@ -14,16 +14,3 @@
   </p>
 
 </div>
-
-### Citation
-
-```plain
-@misc{tuanlda78202,
-  author = {Tuan (Charles) Le Duc Anh},
-  title = {Leo – Production-Grade Agentic RAG & LLM-Ops Platform},
-  year = {2025},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/tuanlda78202/leo}},
-}
-```
