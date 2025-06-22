@@ -9,6 +9,8 @@ services:
     volumes:
       - data:/data/db
       - config:/data/configdb
+    networks:
+      - leo-network
 
   leo-online-be:
     image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/leo-online-be:${IMAGE_TAG}

@@ -65,14 +65,15 @@ jobs:
           script: |
             cd /home/ubuntu/leo
 
+            export AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}
+            export AWS_REGION=${{ env.AWS_REGION }}
+            export IMAGE_TAG=${{ env.IMAGE_TAG }}
+
             aws ecr get-login-password --region $AWS_REGION \
               | docker login --username AWS \
                             --password-stdin \
                 $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-            export AWS_ACCOUNT_ID=${{ env.AWS_ACCOUNT_ID }}
-            export AWS_REGION=${{ env.AWS_REGION }}
-            export IMAGE_TAG=${{ env.IMAGE_TAG }}
-
-            docker-compose -f docker-compose.prod.yaml pull
-            docker-compose -f docker-compose.prod.yaml up -d --remove-orphans
+            # Use correct path to the prod compose file
+            docker-compose -f app/infra/docker-compose.prod.yaml pull
+            docker-compose -f app/infra/docker-compose.prod.yaml up -d --remove-orphans
