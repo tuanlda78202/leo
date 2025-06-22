@@ -4,7 +4,6 @@ title: "Leo – Production-Grade Agentic RAG & LLM-Ops Platform"
 version: 0.1.0
 type: "Software"
 authors:
-  - given-names: "Tuan (Charles)"
-    family-names: "Le Duc Anh"
+  - family-names: "Tuan (Charles) LDA"
 date-released: "2025-06-10"
 repository-code: "https://github.com/tuanlda78202/leo"
