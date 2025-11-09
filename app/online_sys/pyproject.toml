@@ -26,6 +26,7 @@ dependencies = [
     "uvicorn[standard]>=0.30.0",
     "python-dotenv>=1.0.1",
     "pre-commit>=4.2.0",
+    "langgraph>=0.5.4",
 ]
 
 [dependency-groups]

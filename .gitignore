@@ -176,3 +176,4 @@ cython_debug/
 # Project
 note.txt
 node_modules/
+tests/

@@ -26,6 +26,7 @@ dependencies = [
     "unsloth>=2025.5.9",
     "comet-ml>=3.49.10",
     "langchain-google-genai>=2.1.5",
+    "pre-commit>=4.4.0",
 ]
 
 [dependency-groups]
