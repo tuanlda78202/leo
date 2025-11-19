@@ -177,3 +177,4 @@ cython_debug/
 note.txt
 node_modules/
 tests/
+gguf/

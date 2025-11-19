@@ -27,6 +27,8 @@ dependencies = [
     "python-dotenv>=1.0.1",
     "pre-commit>=4.2.0",
     "langgraph>=0.5.4",
+    "vllm>=0.11.0",
+    "flashinfer-python>=0.5.2",
 ]
 
 [dependency-groups]

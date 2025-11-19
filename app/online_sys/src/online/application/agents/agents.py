@@ -74,9 +74,8 @@ class AgentWrapper:
             summarizer_tool = GeminiSummarizerTool()
 
         model = LiteLLMModel(
-            model_id=settings.GEMINI_MODEL_ID,
-            # api_base="https://api.openai.com/v1",  # TODO: support vLLM localhost or Gemini API
-            api_key=settings.GEMINI_API_KEY,
+            model_id=settings.VLLM_LLM_ID,
+            api_base=settings.VLLM_API_BASE,
         )
 
         agent = ToolCallingAgent(
@@ -84,7 +83,7 @@ class AgentWrapper:
             model=model,
             max_steps=3,
             verbosity_level=2,
-            # planning_interval=2,
+            planning_interval=2,
             add_base_tools=True,
         )
 

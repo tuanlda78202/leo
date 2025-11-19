@@ -49,6 +49,26 @@ class Settings(BaseSettings):
         description="Connection URI for the local MongoDB Atlas instance.",
     )
 
+    MONGODB_INITDB_ROOT_USERNAME: str = Field(
+        default="",
+        description="Root username for MongoDB Atlas authentication.",
+    )
+
+    MONGODB_INITDB_ROOT_PASSWORD: str = Field(
+        default="",
+        description="Root password for MongoDB Atlas authentication.",
+    )
+
+    # --- vLLM Server Configuration ---
+    VLLM_API_BASE: str = Field(
+        default="http://localhost:8000/v1",
+        description="Base URL for the vLLM server API.",
+    )
+    VLLM_LLM_ID: str = Field(
+        default="hosted_vllm/qwen3-4b-q4",
+        description="Model ID for the vLLM server.",
+    )
+
     # --- Gemini API Configuration ---
     GEMINI_API_KEY: str | None = Field(
         default=None, description="API key for Gemini service authentication."
@@ -62,23 +82,24 @@ class Settings(BaseSettings):
     )
 
     # --- OpenAI API Configuration ---
-    OPENAI_API_KEY: str = Field(
+    OPENAI_API_KEY: str | None = Field(
         default=None,
         description="API key for OpenAI service authentication.",
     )
 
-    OPENAI_MODEL_ID: str = Field(
+    OPENAI_MODEL_ID: str | None = Field(
         default="gpt-4o-mini", description="Identifier for the OpenAI model to be used."
     )
 
-    # @field_validator("OPENAI_API_KEY")
-    # @classmethod
-    # def check_not_empty(cls, value: str, info) -> str:
-    #     if not value or value.strip() == "":
-    #         logger.error(f"{info.field_name} cannot be empty.")
-    #         raise ValueError(f"{info.field_name} cannot be empty.")
-    #     return value
-
+    # --- OpenRouter API Configuration ---
+    OPENROUTER_API_KEY: str | None = Field(
+        default=None,
+        description="API key for OpenRouter service authentication.",
+    )
+    OPENROUTER_MODEL_ID: str | None = Field(
+        default=None,
+        description="Model ID for OpenRouter API.",
+    )
 
 try:
     settings = Settings()
